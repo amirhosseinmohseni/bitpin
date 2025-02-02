@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # my apps
     'users',
     'posts',
+    'api',
     
     # default apps
     'django.contrib.admin',
@@ -64,7 +65,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=20),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
     'ROTATE_REFRESH_TOKEN': True
 }

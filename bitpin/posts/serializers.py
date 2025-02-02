@@ -20,7 +20,13 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ["id", "title", "average_rating", "total_votes", "user_rating"]
         
-class RatingSerializer(serializers.ModelSerializer):
+class RatingRequestSerializer(serializers.ModelSerializer):
+    post = serializers.UUIDField()
     class Meta:
         model = Rating
-        fields = ["score"]
+        fields = ["post", "score"]
+        
+class RatingResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ('user', 'post', 'score')
