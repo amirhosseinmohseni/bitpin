@@ -6,7 +6,7 @@ networks:
 
 volumes:
   pg_data:
-  # elasticsearch-data:
+  redis_data:
 
 services:
   # app:
@@ -41,5 +41,24 @@ services:
       - "5432:5432"
     volumes:
       - pg_data:/data/postgres
+    networks:
+      - default
+
+  redis:
+    image: redis:7.0.4
+    container_name: redis
+    environment:
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+      - REDIS_AOF_ENABLED=yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    command: redis-server --requirepass bitpin
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
     networks:
       - default

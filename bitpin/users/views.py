@@ -23,5 +23,18 @@ class RegisterUserView(APIView):
         serializer.save()
         return Response({"message": "User registered successfully"}, status=status.HTTP_201_CREATED)
     
-class UserLoginView(TokenObtainPairView):
-    serializer_class = UserLoginSerializer
+# class UserLoginView(TokenObtainPairView):
+#     serializer_class = UserLoginSerializer
+
+class UserLoginView(APIView):
+    permission_classes = [AllowAny]
+    
+    @extend_schema(
+        request=UserSerializer,
+        responses=UserLoginSerializer
+    )
+    def post(self, request):
+        serializer = UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
